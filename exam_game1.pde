@@ -36,7 +36,8 @@ int[] NeighborArray;
 int[] SubNeighborArray;
 int[] SubArray;
 int[] SubStartArray;
-PImage menu;
+PImage menu, select, gameOver, ship1, ship2, ship3, victory;
+PFont text;
 PShape boat, HexS;
 float boatX = posCoords[0][0]+width/2;
 float boatY = posCoords[0][1]+height/2;
@@ -49,10 +50,11 @@ int randSubN;
 int move = 0;
 int maxMove = 6;
 int currMove = 0;
+int EMove = 4;
 int turn = 0;
 int maxEnemyNeighborsVisible = 3;
 int turnsEnemyVisible = 2;
-
+int shipSelect;
 
 enum Player{
   White, Black
@@ -66,10 +68,17 @@ void setup() {
   fullScreen();
   frameRate(10);
   set_Hex(true);
+  text = loadFont("Courant-Bold-40.vlw");
   menu = loadImage("1.jpg");
+  select = loadImage("dreamstime_16639697.jpg");
+  gameOver = loadImage("sinking-ship.jpg");
+  ship1 = loadImage("Light_fleet.png");
+  ship2 = loadImage("Heavy_fleet.png");
+  ship3 = loadImage("Carrier_fleet.png");
+  victory = loadImage("1017709.jpg");
   cursor(CROSS);
-  colorOut = color(100, 200, 100);
-  colorIn = color(200, 100, 100);
+  colorOut = color(0, 53, 255);
+  colorIn = color(0, 0, 83);
   gameState = 0;
   
   for(int i = 0; i < Hexagon.length; i++)
@@ -98,7 +107,7 @@ void setup() {
   boatX = posCoords[0][0]+width/2;
   boatY = posCoords[0][1]+height/2;
   boatSel = false;
-  Hexagon[0].selected = true;
+  Hexagon[5].selected = true;
   Hexagon[startPos].SubSelected = true;
   println(startPos);
   //translate(boatX, boatY);
@@ -116,6 +125,10 @@ void draw() {
     selectScreen();
   } else if(gameState == 3){
     gameScreen();
+  } else if(gameState == 4){
+    gameOverScreen();
+  } else if(gameState == 5){
+    winScreen();
   }
 }
 
@@ -124,41 +137,115 @@ void menuScreen(){
   menu.resize(width, height);
   background(menu);
   rectMode(CENTER);
-  rect(width/2, height/2, 70, 30);
-  if(mouseX >= width/2-45 && mouseX <= width/2+45 && mouseY >= height/2-15 && mouseY <= width/2+15 && mousePressed){
+  fill(255);
+  rect(width/2, height/2, 140, 30);
+  textFont(text, 20);
+  textAlign(CENTER);
+  fill(0);
+  textSize(20);
+  text("New Game", width/2, height/2+7);
+  if(mouseX > width/2-60 && mouseX < width/2+60 && mouseY > height/2-15 && mouseY < width/2+15 && mousePressed){
+    delay(200);
     gameState = 2;
   }
-  rect(width/2, height/2+65, 70, 30);
-  if(mouseX >= width/2-45 && mouseX <= width/2+45 && mouseY >= height/2+50 && mouseY <= height/2+80 && mousePressed){
+  if(mouseX > width/2-60 && mouseX < width/2+60 && mouseY > height/2+50 && mouseY < height/2+80 && mousePressed){
     gameState = 1;
   }
+  fill(255);
+  rect(width/2, height/2+65, 140, 30);
+  fill(0);
+  text("How To Play", width/2, height/2+70);
 }
 
 void tutorialScreen(){
   gameState = 1;
   background(0);
-  rect(width/2, 900, 70, 30);
-  if(mouseX >= width/2-45 && mouseX <= width/2+45 && mouseY >=700-15 && mouseY <= 700+15 && mousePressed){
+  fill(255);
+  rect(width/2, 900, 140, 30);
+  fill(0);
+  textAlign(CENTER);
+  text("Return", width/2, 905);
+  fill(255);
+  textAlign(LEFT);
+  text("How To Play:" + "\n" + "*Choose you ship carefully, each has different characteristics" + "\n" + "*Once spotted, the enemy sub will dive and only be visible by a tile close by" + "\n" + "*you can only move to a tile next to you. Once you finish moving, the enemy sub will move", width/20, height/10);
+  if(mouseX >= width/2-60 && mouseX <= width/2+60 && mouseY >=900-15 && mouseY <= 900+15 && mousePressed){
+    delay(200);
     gameState = 0;
   }
 }
 
 void selectScreen(){
   gameState = 2;
-  background(100);
+  select.resize(width, height);
+  ship1.resize(100, 100);
+  ship2.resize(100, 100);
+  ship3.resize(100, 100);
+  imageMode(CENTER);
+  background(select);
+  rectMode(CENTER);
+  fill(255);
+  rect(200, 100, 100, 100);
+  image(ship1, 200, 100);
+  if(mouseX > 200 && mouseX < 300 && mouseY > 100 && mouseY < 200 && mousePressed){
+    maxMove = 200;
+    maxEnemyNeighborsVisible = 1;
+    turnsEnemyVisible = 1;
+    shipSelect = 1;
+    gameState = 3;
+  }
+  rect(400, 100, 100, 100);
+  image(ship2, 400, 100);
+  if(mouseX > 400 && mouseX < 500 && mouseY > 100 && mouseY < 200 && mousePressed){
+    maxMove = 6;
+    turnsEnemyVisible = 3;
+    maxEnemyNeighborsVisible = 2;
+    shipSelect = 2;
+    gameState = 3;
+  }
+  rect(600, 100, 100, 100);
+  image(ship3, 600, 100);
+  if(mouseX > 600 && mouseX < 700 && mouseY > 100 && mouseY < 200){
+    maxMove = 4;
+    turnsEnemyVisible = 1;
+    maxEnemyNeighborsVisible = 3;
+    shipSelect = 3;
+    gameState = 3;
+  }
 }
 
 void gameOverScreen(){
-  
+  gameState = 4;
+  gameOver.resize(width, height);
+  background(gameOver);
+  fill(255);
+  rect(width/2, 800, 120, 30);
+  textAlign(CENTER);
+  fill(0);
+  text("Main Menu", width/2, 805);
+  if(mouseX >= width/2-60 && mouseX <= width/2+60 && mouseY >= 805-15 && mouseY <= 805+15 && mousePressed){
+    gameState = 0;
+  }
+}
+
+void winScreen(){
+  gameState = 5;
+  victory.resize(width, height);
+  background(victory);
+  fill(0);
+  text("Score :" + (20-turn)*100, width/2, height/2);
+  fill(255);
+  rect(width/2, 800, 120, 30);
+  if(mouseX >= width/2-60 && mouseX <= width/2+60 && mouseY >= 800-15 && mouseY <= 800+15 && mousePressed){
+    gameState = 0;
+  }
 }
 
 void gameScreen(){
+  gameState = 3;
   background(255);
-    //println("running");
-    
-  //if(!invalidMove){
-  //}
-    
+  textAlign(CENTER);
+  fill(0);
+  text("Turns: " + turn, width/2, 800);
   if(!invalidMove){
     //println("removing array");
     
@@ -189,23 +276,20 @@ void gameScreen(){
         Hexagon[i].draw(this);
       }
       
-      // paint boat
-      shape(boat, boatX, boatY);
-      
       // counter
       text(currMove, width/10, height/10);
       if(Hexagon[i].selected && Hexagon[i].SubSelected){
-        String winTxT = "You Win";
-        pushMatrix();
-        text(winTxT, width/2, height/2);
-        popMatrix();
+        gameState = 5;
       }
     }
-  
       PaintNeighborLoop(NeighborArray, invalidMove, CVSkill);
       SubNeighborLoop(SubNeighborArray);
       nextTurn();
       SubPos();
+      
+      if(turn >= 20){
+        gameState = 4;
+      }
   }
   
 void SubPos(){
@@ -258,12 +342,5 @@ void keyPressed(){
   set_Hex(false);
   if(key == '1'){
    boatSel = !boatSel; 
-  }
-  if(key == ' '){
-    for(int i = 0; i < 253; i++){
-      if(Hexagon[i].selected == true){
-        CVreveal(i);
-      }
-    }
   }
 }

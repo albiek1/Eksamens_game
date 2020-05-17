@@ -42,7 +42,7 @@ public class Polygon {
        // paint neighbor
        fill(255, 255, 0);
     } else if(SubNeighbor && !selected){
-      fill(0, 0, 255);
+      fill(0, 155, 180);
     } else if(SubSelected && (turn < turnsEnemyVisible || revealed == true)){
       fill(255, 0, 0);
     }
@@ -69,7 +69,7 @@ public class Polygon {
     app.popStyle();
     app.popMatrix();
     fill(0);
-    text(id, x, y);
+    //text(id, x, y);
     sel();
   }
   

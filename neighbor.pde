@@ -21,7 +21,7 @@ int[] Neighbors(int index){
 }
 
 int[] SubNeighbors(int SubIndex){
-  int s1, s2, s3, s4, s5, s6;
+  int s1, s2, s3, s4, s5, s6, s7;
   if(isOdd(SubIndex) == true){
     s1 = SubIndex-1;
     s2 = SubIndex+rowL+1;
@@ -29,6 +29,7 @@ int[] SubNeighbors(int SubIndex){
     s4 = SubIndex+rowL;
     s5 = SubIndex+1;
     s6 = SubIndex+rowL-1;
+    s7 = SubIndex;
   }else{
     s1 = SubIndex-1;
     s2 = SubIndex-rowL-1;
@@ -36,8 +37,9 @@ int[] SubNeighbors(int SubIndex){
     s4 = SubIndex+rowL;
     s5 = SubIndex+1;
     s6 = SubIndex-rowL+1;
+    s7 = SubIndex;
   }
-  int[] SubNeighborArray = {s1, s2, s3, s4, s5, s6};
+  int[] SubNeighborArray = {s1, s2, s3, s4, s5, s6, s7};
   return SubNeighborArray;
 }
 
@@ -141,7 +143,7 @@ void SubNeighborLoop(int[] SubNeighbor){
           println(i);
           //Hexagon[i].SubNeighbor = false;
           move++;
-          if(move == 4){
+          if(move == EMove){
          subMove = false;
           }
       }
