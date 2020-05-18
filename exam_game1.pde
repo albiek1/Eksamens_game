@@ -187,7 +187,7 @@ void selectScreen(){
   rect(200, 100, 100, 100);
   image(ship1, 200, 100);
   if(mouseX > 200 && mouseX < 300 && mouseY > 100 && mouseY < 200 && mousePressed){
-    maxMove = 200;
+    maxMove = 8;
     maxEnemyNeighborsVisible = 1;
     turnsEnemyVisible = 1;
     shipSelect = 1;
@@ -232,7 +232,7 @@ void winScreen(){
   victory.resize(width, height);
   background(victory);
   fill(0);
-  text("Score :" + (20-turn)*100, width/2, height/2);
+  text("Score :" + (40-turn)*100, width/2, height/2);
   fill(255);
   rect(width/2, 800, 120, 30);
   if(mouseX >= width/2-60 && mouseX <= width/2+60 && mouseY >= 800-15 && mouseY <= 800+15 && mousePressed){
@@ -287,7 +287,7 @@ void gameScreen(){
       nextTurn();
       SubPos();
       
-      if(turn >= 20){
+      if(turn >= 40){
         gameState = 4;
       }
   }
