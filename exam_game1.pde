@@ -117,11 +117,9 @@ void setup() {
 void draw() {
   if(gameState == 0){
     menuScreen();
-  }
-  else if(gameState==1){
+  } else if(gameState==1){
     tutorialScreen();
-  }
-  else if(gameState == 2){
+  } else if(gameState == 2){
     selectScreen();
   } else if(gameState == 3){
     gameScreen();
@@ -145,7 +143,6 @@ void menuScreen(){
   textSize(20);
   text("New Game", width/2, height/2+7);
   if(mouseX > width/2-60 && mouseX < width/2+60 && mouseY > height/2-15 && mouseY < width/2+15 && mousePressed){
-    delay(200);
     gameState = 2;
   }
   if(mouseX > width/2-60 && mouseX < width/2+60 && mouseY > height/2+50 && mouseY < height/2+80 && mousePressed){
@@ -187,6 +184,7 @@ void selectScreen(){
   rect(200, 100, 100, 100);
   image(ship1, 200, 100);
   if(mouseX > 200 && mouseX < 300 && mouseY > 100 && mouseY < 200 && mousePressed){
+    delay(100);
     maxMove = 8;
     maxEnemyNeighborsVisible = 1;
     turnsEnemyVisible = 1;
@@ -196,6 +194,7 @@ void selectScreen(){
   rect(400, 100, 100, 100);
   image(ship2, 400, 100);
   if(mouseX > 400 && mouseX < 500 && mouseY > 100 && mouseY < 200 && mousePressed){
+    delay(100);
     maxMove = 6;
     turnsEnemyVisible = 3;
     maxEnemyNeighborsVisible = 2;
@@ -205,6 +204,7 @@ void selectScreen(){
   rect(600, 100, 100, 100);
   image(ship3, 600, 100);
   if(mouseX > 600 && mouseX < 700 && mouseY > 100 && mouseY < 200){
+    delay(100);
     maxMove = 4;
     turnsEnemyVisible = 1;
     maxEnemyNeighborsVisible = 3;
