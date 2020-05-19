@@ -38,7 +38,7 @@ public class Polygon {
     if(selected){
       app.fill(colorIn);
     }
-    else if(Neighbor && !selected){
+    else if(Neighbor && !selected && !SubNeighbor){
        // paint neighbor
        fill(255, 255, 0);
     } else if(SubNeighbor && !selected){
