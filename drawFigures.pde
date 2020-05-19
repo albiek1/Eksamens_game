@@ -33,26 +33,24 @@ public class Polygon {
     app.pushMatrix();
     app.translate(x, y);
     app.rotate(rot);
-    
+
     // paint selected
-    if(selected){
+    if (selected) {
       app.fill(colorIn);
-    }
-    else if(Neighbor && !selected && !SubNeighbor){
-       // paint neighbor
-       fill(255, 255, 0);
-    } else if(SubNeighbor && !selected){
+    } else if (Neighbor && !selected && !SubNeighbor) {
+      // paint neighbor
+      fill(255, 255, 0);
+    } else if (SubNeighbor && !selected) {
       fill(0, 155, 180);
-    } else if(SubSelected && (turn < turnsEnemyVisible || revealed == true)){
+    } else if (SubSelected && (turn < turnsEnemyVisible || revealed == true)) {
       fill(255, 0, 0);
-    }
-    else{
+    } else {
       // paint other hexagons
       fill(colorOut);
     }
     //app.fill(fillCol);
-    
-    
+
+
     app.noStroke();       
     app.beginShape(TRIANGLE_FAN);
     app.vertex(0, 0);
@@ -62,7 +60,7 @@ public class Polygon {
     app.endShape();
     stroke(5);
     beginShape();
-    for(int i = 0; i < verts; i++){
+    for (int i = 0; i < verts; i++) {
       vertex(vx[i], vy[i]);
     }
     endShape(CLOSE);
@@ -72,35 +70,34 @@ public class Polygon {
     //text(id, x, y);
     sel();
   }
-  
-  void sel(){
-    if(isInside(mouseX, mouseY)){
+
+  void sel() {
+    if (isInside(mouseX, mouseY)) {
       // hexagon is clicked
-      if(mousePressed && mouseButton == LEFT){
-        
-      //println("i am here");
-        if(!selected && Neighbor   && currMove < maxMove ){
+      if (mousePressed && mouseButton == LEFT) {
+
+        //println("i am here");
+        if (!selected && Neighbor   && currMove < maxMove ) {
           // non selected hexagon is clicked
           selected = true;
           currMove++;
           invalidMove = false;
           //println("move is good!");
-          }
-          else if(!Neighbor || currMove >= maxMove)
-          {
-            // invalid move
-            //println("invalidMove!");
-            invalidMove = true;
-          }
+        } else if (!Neighbor || currMove >= maxMove)
+        {
+          // invalid move
+          //println("invalidMove!");
+          invalidMove = true;
         }
-      
+      }
+
       // right click
-        if( selected &&  mousePressed && mouseButton == RIGHT) 
-          {
-            // selected hexagon is right clicked
-            selected = false;
-          }
-        }
+      if ( selected &&  mousePressed && mouseButton == RIGHT) 
+      {
+        // selected hexagon is right clicked
+        selected = false;
+      }
+    }
   }
 
   public boolean isInside(float px, float py) {
@@ -120,8 +117,8 @@ public class Polygon {
   }
 
   // See if the lines ab and cd intersect
-  private boolean linesIntersect(float aX, float aY, float bX, float bY,
-                                 float cX, float cY, float dX, float dY)  {
+  private boolean linesIntersect(float aX, float aY, float bX, float bY, 
+    float cX, float cY, float dX, float dY) {
     float rTop = (aY-cY)*(dX-cX)-(aX-cX)*(dY-cY);
     float sTop = (aY-cY)*(bX-aX)-(aX-cX)*(bY-aY);
     float bot = (bX-aX)*(dY-cY)-(bY-aY)*(dX-cX);
