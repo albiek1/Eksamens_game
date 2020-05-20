@@ -36,7 +36,7 @@ int[] NeighborArray;
 int[] SubNeighborArray;
 int[] SubArray;
 int[] SubStartArray;
-PImage menu, select, gameOver, ship1, ship2, ship3, victory;
+PImage menu, select, gameOver, ship1, ship2, ship3, victory, title;
 PFont text;
 PShape boat, HexS;
 float boatX = posCoords[0][0]+width/2;
@@ -76,6 +76,7 @@ void setup() {
   ship2 = loadImage("Heavy_fleet.png");
   ship3 = loadImage("Carrier_fleet.png");
   victory = loadImage("1017709.jpg");
+  title = loadImage("Title.png");
   cursor(CROSS);
   colorOut = color(0, 53, 255);
   colorIn = color(0, 0, 83);
@@ -134,24 +135,26 @@ void menuScreen() {
   gameState = 0;
   menu.resize(width, height);
   background(menu);
+  title.resize(350, 0);
+  image(title, width/2-150, height/2-50);
   rectMode(CENTER);
   fill(255);
-  rect(width/2, height/2, 140, 30);
+  rect(width/2, height/2+200, 140, 30);
   textFont(text, 20);
   textAlign(CENTER);
   fill(0);
   textSize(20);
-  text("New Game", width/2, height/2+7);
-  if (mouseX > width/2-60 && mouseX < width/2+60 && mouseY > height/2-15 && mouseY < width/2+15 && mousePressed) {
+  text("New Game", width/2, height/2+207);
+  if (mouseX > width/2-60 && mouseX < width/2+60 && mouseY > height/2-215 && mouseY < height/2+215 && mousePressed) {
     gameState = 2;
   }
-  if (mouseX > width/2-60 && mouseX < width/2+60 && mouseY > height/2+50 && mouseY < height/2+80 && mousePressed) {
+  if (mouseX > width/2-60 && mouseX < width/2+60 && mouseY > height/2+250 && mouseY < height/2+280 && mousePressed) {
     gameState = 1;
   }
   fill(255);
-  rect(width/2, height/2+65, 140, 30);
+  rect(width/2, height/2+265, 140, 30);
   fill(0);
-  text("How To Play", width/2, height/2+70);
+  text("How To Play", width/2, height/2+270);
 }
 
 void tutorialScreen() {
@@ -164,7 +167,7 @@ void tutorialScreen() {
   text("Return", width/2, 905);
   fill(255);
   textAlign(LEFT);
-  text("How To Play:" + "\n" + "*Choose you ship carefully, each has different characteristics" + "\n" + "*Once spotted, the enemy sub will dive and only be visible by a tile close by" + "\n" + "*you can only move to a tile next to you. Once you finish moving, the enemy sub will move", width/20, height/10);
+  text("How To Play:" + "\n" + "*Choose you ship carefully, each has different characteristics" + "\n" + "*Once spotted, the enemy sub will dive and only be visible by a tile close by" + "\n" + "*you can only move to a tile next to you. Once you finish moving, the enemy sub will move" + "\n" + "*click on the yellow neighbor tiles to move" + "\n" + "*the fewer turns you take, the higher you score" + "\n" + "*if you take more than 40 turns you lose, 40 is a lot so don't worry" + "\n" + "*the light blue tiles are the enemys signature, they give an aproximate location" + "\n" + "*neighbor tiles wrap around the map for both you and the enemy, this is a bug concernig how the board is generated" + "\n" + "*once you can't move any further, press 'ENTER' to end the turn" + "\n" + "*the eneny will move four tiles, in no particular direction" + "\n" + "*sometimes you move less tiles per turn, this is also a bug and it only happens sometimes" + "\n" + "\n" + "*lastly, thanks for playing this game made in approximately 4 days :)", width/20, height/10);
   if (mouseX >= width/2-60 && mouseX <= width/2+60 && mouseY >=900-15 && mouseY <= 900+15 && mousePressed) {
     delay(200);
     gameState = 0;
@@ -181,32 +184,35 @@ void selectScreen() {
   background(select);
   rectMode(CENTER);
   fill(255);
-  rect(200, 100, 100, 100);
-  image(ship1, 200, 100);
-  if (mouseX > 200 && mouseX < 300 && mouseY > 100 && mouseY < 200 && mousePressed) {
+  rect(width/2-400, 300, 100, 100);
+  text("The fastest of the three, the destroyer can move more than twice the distance of the enemy but only has basic sonar", width/2-400, 550, 200, 300);
+  image(ship1, width/2-400, 300);
+  if (mouseX > width/2-450 && mouseX < width/2-350 && mouseY > 250 && mouseY < 350 && mousePressed) {
     delay(100);
-    maxMove = 8;
+    maxMove = 9;
     maxEnemyNeighborsVisible = 1;
     turnsEnemyVisible = 1;
     shipSelect = 1;
     gameState = 3;
   }
-  rect(400, 100, 100, 100);
-  image(ship2, 400, 100);
-  if (mouseX > 400 && mouseX < 500 && mouseY > 100 && mouseY < 200 && mousePressed) {
+  rect(width/2, 300, 100, 100);
+  image(ship2, width/2, 300);
+  text("This cruiser is by far the most well rounded, boasting decent speed and an advanced sonar. This alows it to much more accurately detect the enemys position", width/2, 550, 200, 300);
+  if (mouseX > width/2-50 && mouseX < width/2+50 && mouseY > 250 && mouseY < 350 && mousePressed) {
     delay(100);
-    maxMove = 6;
+    maxMove = 7;
     turnsEnemyVisible = 3;
     maxEnemyNeighborsVisible = 2;
     shipSelect = 2;
     gameState = 3;
   }
-  rect(600, 100, 100, 100);
-  image(ship3, 600, 100);
-  if (mouseX > 600 && mouseX < 700 && mouseY > 100 && mouseY < 200) {
+  rect(width/2+400, 300, 100, 100);
+  image(ship3, width/2+400, 300);
+  text("Carriers are slow, but they have access to scout planes. This proves far more effective at detecting opponents at the cost of reduced speed", width/2+400, 550, 200, 300);
+  if (mouseX > width/2+350 && mouseX < width/2+450 && mouseY > 250 && mouseY < 350) {
     delay(100);
-    maxMove = 4;
-    turnsEnemyVisible = 1;
+    maxMove = 5;
+    turnsEnemyVisible = 2;
     maxEnemyNeighborsVisible = 3;
     shipSelect = 3;
     gameState = 3;
@@ -218,11 +224,13 @@ void gameOverScreen() {
   gameOver.resize(width, height);
   background(gameOver);
   fill(255);
+  rectMode(CENTER);
   rect(width/2, 800, 120, 30);
   textAlign(CENTER);
   fill(0);
+  textSize(20);
   text("Main Menu", width/2, 805);
-  if (mouseX >= width/2-60 && mouseX <= width/2+60 && mouseY >= 805-15 && mouseY <= 805+15 && mousePressed) {
+  if (mouseX >= width/2-60 && mouseX <= width/2+60 && mouseY >= 800-15 && mouseY <= 800+15 && mousePressed) {
     gameState = 0;
   }
 }
@@ -231,11 +239,16 @@ void winScreen() {
   gameState = 5;
   victory.resize(width, height);
   background(victory);
-  fill(0);
-  text("Score :" + (40-turn)*100, width/2, height/2);
   fill(255);
-  rect(width/2, 800, 120, 30);
-  if (mouseX >= width/2-60 && mouseX <= width/2+60 && mouseY >= 800-15 && mouseY <= 800+15 && mousePressed) {
+  rect(width/2-100, height/2-20, 140, 30);
+  fill(0);
+  textSize(20);
+  text("Score :" + (40-turn)*100, width/2-90, height/2);
+  fill(255);
+  rect(width/2-100, 800, 120, 30);
+  fill(0);
+  text("Main Menu", width/2-95, 823);
+  if (mouseX >= width/2-160 && mouseX <= width/2+160 && mouseY >= 800-15 && mouseY <= 800+15 && mousePressed) {
     gameState = 0;
   }
 }
